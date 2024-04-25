@@ -1,6 +1,12 @@
 <template>
-  <div mx-auto h-full max-w-1440 p16 flex-col-center pt-200>
-    <Footer />
+  <div>
+    <button>this is a test button</button>
+
+    <button>this is a test button 2</button>
   </div>
 </template>
-<script setup lang="ts"></script>
+
+<script setup lang="ts">
+// TODO: mouse animate
+useMouseAnimation()
+</script>
