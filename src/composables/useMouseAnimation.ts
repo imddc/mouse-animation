@@ -64,7 +64,9 @@ export const useMouseAnimation = (changeCursor: boolean = true) => {
   function moveBigDom(e: MouseEvent) {
     calcStep()
     // 移动到dom元素上的时候
+    // @ts-expect-error don't care
     if (e.target?.nodeName === 'BUTTON') {
+      // @ts-expect-error don't care
       const rect = e.target.getBoundingClientRect()
       const { left, top, height, width } = rect
 
