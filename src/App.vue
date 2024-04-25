@@ -1,8 +1,8 @@
 <template>
-  <div>
-    <button>this is a test button</button>
+  <div flex-center gap-10 h-full>
+    <button btn>this is a test button</button>
 
-    <button>this is a test button 2</button>
+    <button btn>this is a test button 2</button>
   </div>
 </template>
 

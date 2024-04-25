@@ -14,12 +14,15 @@ export const useMouseAnimation = () => {
   const styles: CSSProperties = {
     width: SIZE + 'px',
     height: SIZE + 'px',
-    backgroundColor: 'aqua',
+    backgroundColor: '#00ffff7a',
+    filter: 'blur(10px)',
     borderRadius: '50%',
     position: 'absolute',
     top: '0',
     left: '0',
-    opacity: '0'
+    opacity: '0',
+    userSelect: 'none',
+    pointerEvents: 'none'
   }
   for (const key in styles) {
     // @ts-expect-error it's ok
