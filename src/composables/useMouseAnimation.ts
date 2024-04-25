@@ -62,6 +62,7 @@ export const useMouseAnimation = (changeCursor: boolean = true) => {
     step = disStepMap.get(dis) || 10
   }
   function moveBigDom(e: MouseEvent) {
+    // TODO: fix position and size when hover btn and a
     calcStep()
     // 移动到dom元素上的时候
     // @ts-expect-error don't care
