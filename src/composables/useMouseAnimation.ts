@@ -6,14 +6,15 @@ export const useMouseAnimation = () => {
   let targetX = 0,
     targetY = 0
 
-  const step = 8
+  let step = 10
   const SIZE = 50
+  let initail = false
 
   const dom = document.createElement('div')
   const styles: CSSProperties = {
     width: SIZE + 'px',
     height: SIZE + 'px',
-    backgroundColor: 'red',
+    backgroundColor: 'aqua',
     borderRadius: '50%',
     position: 'absolute',
     top: '0',
@@ -27,10 +28,34 @@ export const useMouseAnimation = () => {
 
   document.body.appendChild(dom)
 
+  const disStepMap = new Map<number, number>([
+    [100, 3],
+    [200, 4],
+    [300, 5],
+    [400, 6]
+  ])
+  function calcStep() {
+    const disX = targetX - x
+    const dixY = targetY - y
+    const dis = Math.sqrt(disX * disX + dixY * dixY)
+
+    step = disStepMap.get(dis) || 10
+  }
+
   function moveBigDom(e: MouseEvent) {
-    targetX = e.pageX - SIZE / 2
-    targetY = e.pageY - SIZE / 2
-    dom.style.opacity = '1'
+    calcStep()
+    const tarX = e.pageX - SIZE / 2
+    const tarY = e.pageY - SIZE / 2
+
+    targetX = tarX
+    targetY = tarY
+
+    if (!initail) {
+      x = tarX
+      y = tarY
+      dom.style.opacity = '1'
+      initail = true
+    }
   }
 
   requestAnimationFrame(move)
