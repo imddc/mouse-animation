@@ -23,26 +23,32 @@ export const useMouseAnimation = (changeCursor: boolean = true) => {
       'url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiCiAgICAgICAgICAgICAgICB2aWV3Qm94PSIwIDAgOCA4Ij48Y2lyY2xlIGN4PSI0IiBjeT0iNCIgcj0iNCIgZmlsbC1ydWxlPSJldmVub2RkIiBmaWxsPSIjMTBiOTgxIi8+PC9zdmc+) 4 4, auto'
   }
 
+  function resetDom(dom: HTMLElement) {
+    dom.style.width = SIZE + 'px'
+    dom.style.height = SIZE + 'px'
+    dom.style.borderRadius = '50%'
+  }
+
   function initDom() {
     const dom = document.createElement('div')
     const styles: CSSProperties = {
       width: SIZE + 'px',
       height: SIZE + 'px',
       backgroundColor: '#ffffff',
-      filter: 'blur(10px)',
-      borderRadius: '50%',
       position: 'absolute',
       top: '0',
       left: '0',
       opacity: '0',
       userSelect: 'none',
-      pointerEvents: 'none'
+      pointerEvents: 'none',
+      transition:
+        'width 0.3s ease-in-out, height 0.3s ease-in-out, borderRadius 1s ease-in-out'
     }
     for (const key in styles) {
       // @ts-expect-error it's ok
       dom.style[key] = styles[key]
     }
-
+    resetDom(dom)
     return dom
   }
   const dom = initDom()
@@ -57,17 +63,29 @@ export const useMouseAnimation = (changeCursor: boolean = true) => {
   }
   function moveBigDom(e: MouseEvent) {
     calcStep()
-    const tarX = e.pageX - SIZE / 2
-    const tarY = e.pageY - SIZE / 2
+    // 移动到dom元素上的时候
+    if (e.target?.nodeName === 'BUTTON') {
+      const rect = e.target.getBoundingClientRect()
+      const { left, top, height, width } = rect
 
-    targetX = tarX
-    targetY = tarY
+      dom.style.height = height + 'px'
+      dom.style.width = width + 'px'
+      dom.style.borderRadius = '10px'
+      dom.style.transform = `translate(${left - width / 2}px, ${top - height / 2}px)`
+    } else {
+      resetDom(dom)
+      const tarX = e.pageX - SIZE / 2
+      const tarY = e.pageY - SIZE / 2
 
-    if (!initail) {
-      x = tarX
-      y = tarY
-      dom.style.opacity = '1'
-      initail = true
+      targetX = tarX
+      targetY = tarY
+
+      if (!initail) {
+        x = tarX
+        y = tarY
+        dom.style.opacity = '1'
+        initail = true
+      }
     }
   }
   requestAnimationFrame(move)
