@@ -1,0 +1,43 @@
+@import url('./animation.scss');
+
+html,
+body,
+#app {
+  margin: 0px;
+  padding: 0px;
+  height: 100%;
+}
+
+html {
+  font-size: 4px;
+  background-color: #fff;
+  color-scheme: light;
+}
+body {
+  font-size: 14px;
+}
+html.dark {
+  background-color: #121212;
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  html.dark {
+    background-color: #121212;
+    color-scheme: dark;
+  }
+
+  html {
+    background-color: #fff;
+    color-scheme: light;
+  }
+}
+
+::view-transition-old(*) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-new(*) {
+  animation: effects 0.5s ease-in-out;
+  mix-blend-mode: normal;
+}
