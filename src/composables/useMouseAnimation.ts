@@ -34,7 +34,7 @@ export const useMouseAnimation = (changeCursor: boolean = true) => {
     const styles: CSSProperties = {
       width: SIZE + 'px',
       height: SIZE + 'px',
-      backgroundColor: '#ffffff',
+      backgroundColor: '#ffffff80',
       position: 'absolute',
       top: '0',
       left: '0',
@@ -42,7 +42,7 @@ export const useMouseAnimation = (changeCursor: boolean = true) => {
       userSelect: 'none',
       pointerEvents: 'none',
       transition:
-        'width 0.3s ease-in-out, height 0.3s ease-in-out, borderRadius 1s ease-in-out'
+        'width 0.3s ease-in-out, height 0.3s ease-in-out, borderRadius 0.3s ease-in-out'
     }
     for (const key in styles) {
       // @ts-expect-error it's ok
@@ -61,21 +61,32 @@ export const useMouseAnimation = (changeCursor: boolean = true) => {
 
     step = disStepMap.get(Math.ceil(dis / 100) * 100) || 7
   }
-  function moveBigDom(e: MouseEvent) {
-    // TODO: fix position and size when hover btn and a
-    calcStep()
-    // 移动到dom元素上的时候
-    // @ts-expect-error don't care
-    if (e.target?.nodeName === 'BUTTON') {
-      // @ts-expect-error don't care
-      const rect = e.target.getBoundingClientRect()
-      const { left, top, height, width } = rect
 
-      dom.style.height = height + 'px'
-      dom.style.width = width + 'px'
-      dom.style.borderRadius = '10px'
-      dom.style.transform = `translate(${left - width / 2}px, ${top - height / 2}px)`
+  let inBtnOrA = false
+  function moveBigDom(e: MouseEvent) {
+    // [x]: fix position and size when hover btn and a
+
+    const tar = e.target as Element
+    // 移动到dom元素上的时候
+    if (tar.nodeName === 'BUTTON') {
+      if (inBtnOrA) {
+        return
+      }
+      inBtnOrA = true
+      const { left, top, height, width } = tar.getBoundingClientRect()
+      const { borderRadius, zIndex } = getComputedStyle(tar)
+      const offset = 4
+
+      dom.style.height = height + 2 * offset + 'px'
+      dom.style.width = width + 2 * offset + 'px'
+      dom.style.borderRadius = borderRadius
+      dom.style.zIndex = +zIndex - 1 + ''
+
+      targetX = left - offset
+      targetY = top - offset
     } else {
+      inBtnOrA = false
+      calcStep()
       resetDom(dom)
       const tarX = e.pageX - SIZE / 2
       const tarY = e.pageY - SIZE / 2
