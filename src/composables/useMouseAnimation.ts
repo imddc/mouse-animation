@@ -1,10 +1,10 @@
 import { CSSProperties } from 'vue'
 
 const disStepMap = new Map<number, number>([
-  [100, 3],
-  [200, 4],
-  [300, 5],
-  [400, 6]
+  [100, 4],
+  [200, 5],
+  [300, 6],
+  [400, 7]
 ])
 
 export const useMouseAnimation = (changeCursor: boolean = true) => {
@@ -59,7 +59,7 @@ export const useMouseAnimation = (changeCursor: boolean = true) => {
     const dixY = targetY - y
     const dis = Math.sqrt(disX * disX + dixY * dixY)
 
-    step = disStepMap.get(dis) || 10
+    step = disStepMap.get(Math.ceil(dis / 100) * 100) || 7
   }
   function moveBigDom(e: MouseEvent) {
     // TODO: fix position and size when hover btn and a
