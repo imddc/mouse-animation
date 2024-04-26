@@ -15,7 +15,8 @@ export const useMouseAnimation = (changeCursor: boolean = true) => {
 
   let step = 10
   const SIZE = 50
-  let initail = false
+  const hoverType = ['BUTTON', 'A']
+  let init = false
 
   // 改变鼠标样式
   if (changeCursor) {
@@ -68,7 +69,7 @@ export const useMouseAnimation = (changeCursor: boolean = true) => {
 
     const tar = e.target as Element
     // 移动到dom元素上的时候
-    if (tar.nodeName === 'BUTTON') {
+    if (hoverType.includes(tar.nodeName)) {
       if (inBtnOrA) {
         return
       }
@@ -79,7 +80,7 @@ export const useMouseAnimation = (changeCursor: boolean = true) => {
 
       dom.style.height = height + 2 * offset + 'px'
       dom.style.width = width + 2 * offset + 'px'
-      dom.style.borderRadius = borderRadius
+      dom.style.borderRadius = borderRadius || '4px'
       dom.style.zIndex = +zIndex - 1 + ''
 
       targetX = left - offset
@@ -94,11 +95,11 @@ export const useMouseAnimation = (changeCursor: boolean = true) => {
       targetX = tarX
       targetY = tarY
 
-      if (!initail) {
+      if (!init) {
         x = tarX
         y = tarY
         dom.style.opacity = '1'
-        initail = true
+        init = true
       }
     }
   }

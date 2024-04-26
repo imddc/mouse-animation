@@ -1,8 +1,9 @@
 <template>
-  <div flex-center gap-10 h-full>
+  <div flex-center gap-20 h-full>
     <button btn>this is a test button</button>
+    <button flex-center p-10 bg-amber hover:bg-amber-6>button 2</button>
 
-    <button btn>this is a test button 2</button>
+    <a text-amber>link</a>
   </div>
 </template>
 
